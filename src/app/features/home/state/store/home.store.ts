@@ -1,9 +1,10 @@
 import { withState, signalStore } from '@ngrx/signals';
+import { VehicleBrand } from '../../domain/models/home.models';
 
 export interface HomeState {
-  brands: any[]; //VehicleBrand sustituit cuando cree la interfaz
-  filteredBrands: any[];
-  selectedBrand: any | null;
+  brands: VehicleBrand[];
+  filteredBrands: VehicleBrand[];
+  selectedBrand: VehicleBrand | null;
   loading: boolean;
   error: string | null;
   searchTerm: string;
