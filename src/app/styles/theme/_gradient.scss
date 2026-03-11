@@ -1,0 +1,26 @@
+@use './colors' as colors;
+$gradient-card: linear-gradient(
+  135deg,
+  colors.$card-gradient-start,
+  colors.$card-gradient-end
+);
+
+$gradient-card-hover: linear-gradient(
+  135deg,
+  colors.$color-primary,
+  colors.$color-accent
+);
+
+
+$gradient-header: linear-gradient(
+  135deg,
+  colors.$background-header-start,
+  colors.$background-header-end
+);
+
+
+$gradient-background: radial-gradient(
+  circle at top,
+  colors.$background-header-start,
+  colors.$background-main 60%
+);

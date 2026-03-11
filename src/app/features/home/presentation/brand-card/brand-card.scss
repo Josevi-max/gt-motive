@@ -1,16 +1,14 @@
+@use '../../../../styles/index' as *;
+
 .brand-card {
   cursor: pointer;
   border-radius: 16px;
   color: white;
 
-  background: linear-gradient(
-    135deg,
-    #1e3a8a,
-    #0f172a
-  );
+  background: $gradient-card;
 
   &:hover {
-    background: linear-gradient(135deg, #2563eb, #f97316);
+    background: $gradient-card-hover;
   }
 
   .brand-content {
