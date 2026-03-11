@@ -1,27 +1,9 @@
-import { withState, signalStore } from '@ngrx/signals';
-import { VehicleBrand } from '../../domain/models/home.models';
+import { signalStore } from "@ngrx/signals";
+import { HomeMethodsStore } from "./home.methods";
+import { HomeStateStore } from "./home.state";
 
-export interface HomeState {
-  brands: VehicleBrand[];
-  filteredBrands: VehicleBrand[];
-  selectedBrand: VehicleBrand | null;
-  loading: boolean;
-  error: string | null;
-  searchTerm: string;
-  totalItems: number;
-}
-
-export const initialHomeState: HomeState = {
-  brands: [],
-  filteredBrands: [],
-  selectedBrand: null,
-  loading: false,
-  error: null,
-  searchTerm: '',
-  totalItems: 0
-};
-
-export const HomeStateStore = signalStore(
+export const HomeStore = signalStore(
   { providedIn: 'root' },
-  withState<HomeState>(initialHomeState)
+  HomeStateStore,
+  HomeMethodsStore
 );
