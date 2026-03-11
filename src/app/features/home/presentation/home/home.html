@@ -1,6 +1,5 @@
-<p>home works!</p>
-<cdk-virtual-scroll-viewport itemSize="50" class="scroll-container">
-  <div *cdkVirtualFor="let item of brands()" class="item">
-    {{ item.name }}
+<cdk-virtual-scroll-viewport itemSize="50" class="h-[80%] w-[75%] mx-auto mt-5 overflow-auto">
+  <div *cdkVirtualFor="let item of brands()">
+    <app-brand-card class="h-[50px]" [brandName]="item.name"></app-brand-card>
   </div>
 </cdk-virtual-scroll-viewport>
