@@ -1,0 +1,14 @@
+.scroll-container {
+  height: 400px;
+  width: 100%;
+  border: 1px solid #ccc;
+  overflow: auto;
+}
+
+.item {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}

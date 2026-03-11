@@ -1,2 +1,6 @@
 <p>home works!</p>
-{{brands()}}
+<cdk-virtual-scroll-viewport itemSize="50" class="scroll-container">
+  <div *cdkVirtualFor="let item of brands()" class="item">
+    {{ item.name }}
+  </div>
+</cdk-virtual-scroll-viewport>
