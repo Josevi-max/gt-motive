@@ -1,0 +1,44 @@
+.brand-card {
+  cursor: pointer;
+  border-radius: 16px;
+  color: white;
+
+  background: linear-gradient(
+    135deg,
+    #1e3a8a,
+    #0f172a
+  );
+
+  &:hover {
+    background: linear-gradient(135deg, #2563eb, #f97316);
+  }
+
+  .brand-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .brand-icon {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+
+    mat-icon {
+      font-size: 28px;
+    }
+  }
+
+  .brand-name {
+    flex: 1;
+    margin-left: 16px;
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .brand-arrow {
+    mat-icon {
+      opacity: 0.7;
+    }
+  }
+}
