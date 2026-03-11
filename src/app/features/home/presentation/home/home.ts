@@ -1,7 +1,6 @@
 import { Component, computed, inject, Signal } from '@angular/core';
 import { VehicleBrand } from '../../domain/models/home.models';
-import { HomeStateStore } from '../../state/store/home.store';
-import { withComputed } from '@ngrx/signals';
+import { HomeStore } from '../../state/store/home.store';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +10,7 @@ import { withComputed } from '@ngrx/signals';
 })
 export class Home {
 
-  private readonly homeStore = inject(HomeStateStore);
+  private readonly homeStore = inject(HomeStore);
 
   public get brands(): Signal<VehicleBrand[]> {
     return computed(() => this.homeStore.brands());

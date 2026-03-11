@@ -4,6 +4,7 @@ import { map, tap } from 'rxjs';
 import { GetAllMakesResponse } from '../../infrastructure/models/home.dto';
 import { HomeMethodsStore } from '../store/home.methods';
 import { VehicleBrand } from '../../domain/models/home.models';
+import { HomeStore } from '../store/home.store';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ import { VehicleBrand } from '../../domain/models/home.models';
 export class HomeFacade {
 
   private readonly homeApiService = inject(HomeApi);
-  private readonly homeMethodsStore = inject(HomeMethodsStore);
+  private readonly homeMethodsStore = inject(HomeStore);
   public loadBrands(): void {
     this.homeMethodsStore.setLoading(true);
     this.homeApiService.getAllMakes().pipe(

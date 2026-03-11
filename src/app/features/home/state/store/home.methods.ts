@@ -1,8 +1,7 @@
-import { patchState, signalStore, withMethods } from "@ngrx/signals";
+import { patchState, withMethods } from "@ngrx/signals";
 import { VehicleBrand } from "../../domain/models/home.models";
 
-export const HomeMethodsStore = signalStore(
-    { providedIn: 'root' },
+export const HomeMethodsStore =
     withMethods((
         store
     ) => ({
@@ -36,4 +35,4 @@ export const HomeMethodsStore = signalStore(
                 searchTerm: ''
             });
         }
-    })));
+    }));
