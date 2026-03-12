@@ -1,0 +1,23 @@
+<div class="flex gap-4 items-center">
+
+  <mat-form-field  class="flex-1">
+    <mat-icon matPrefix>search</mat-icon>
+    <input
+      matInput
+      placeholder="Buscar..."
+      [value]="searchEngine()"
+      (input)="onSearchChange($event.target.value)"
+    />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Orden</mat-label>
+    <mat-select
+      [value]="orderedBrand()"
+      (selectionChange)="changeSortOrder($event.value)">
+      <mat-option value="asc">Ascendente</mat-option>
+      <mat-option value="desc">Descendente</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+</div>
