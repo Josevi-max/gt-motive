@@ -1,42 +1,13 @@
 @use '../../../../styles/index' as *;
 
 .brand-card {
-  cursor: pointer;
-  border-radius: 16px;
-  color: white;
-
   background: $gradient-card;
 
   &:hover {
     background: $gradient-card-hover;
   }
 
-  .brand-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
   .brand-icon {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 10px;
-    border-radius: 10px;
-
-    mat-icon {
-      font-size: 28px;
-    }
-  }
-
-  .brand-name {
-    flex: 1;
-    margin-left: 16px;
-    font-size: 18px;
-    font-weight: 500;
-  }
-
-  .brand-arrow {
-    mat-icon {
-      opacity: 0.7;
-    }
+    background: $card-icon-background;
   }
 }

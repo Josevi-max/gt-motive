@@ -1,5 +1,5 @@
 import { patchState, withMethods } from "@ngrx/signals";
-import { VehicleBrand } from "../../domain/models/home.models";
+import { SortOrder, VehicleBrand } from "../../domain/models/home.models";
 
 export const HomeMethodsStore =
     withMethods((
@@ -21,8 +21,12 @@ export const HomeMethodsStore =
             patchState(store, { error });
         },
 
-        setSelectedBrand(brand: VehicleBrand | null): void {
-            patchState(store, { selectedBrand: brand });
+        setOrderedBrands(orderedBrands: SortOrder): void {
+            patchState(store, { orderedBrands });
+        },
+
+        setFilteredBrands(filteredBrands: VehicleBrand[]): void {
+            patchState(store, { filteredBrands });
         },
 
         resetState(): void {

@@ -1,5 +1,9 @@
-<cdk-virtual-scroll-viewport itemSize="50" class="h-[80%] w-[75%] mx-auto mt-5 overflow-auto">
-  <div *cdkVirtualFor="let item of brands()">
-    <app-brand-card class="h-[50px]" [brandName]="item.name"></app-brand-card>
-  </div>
-</cdk-virtual-scroll-viewport>
+<div class="w-[75%] h-screen mx-auto mt-10">
+  <app-search-engine></app-search-engine>
+
+  <cdk-virtual-scroll-viewport itemSize="50" class="h-[70%] mx-auto w-full mt-5 overflow-auto">
+    <div *cdkVirtualFor="let item of brands()">
+      <app-brand-card [brandName]="item.name"></app-brand-card>
+    </div>
+  </cdk-virtual-scroll-viewport>
+</div>

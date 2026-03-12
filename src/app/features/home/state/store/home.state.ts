@@ -1,10 +1,10 @@
 import { withState } from '@ngrx/signals';
-import { VehicleBrand } from '../../domain/models/home.models';
+import { SortOrder, VehicleBrand } from '../../domain/models/home.models';
 
 export interface HomeState {
   brands: VehicleBrand[];
   filteredBrands: VehicleBrand[];
-  selectedBrand: VehicleBrand | null;
+  orderedBrands:  SortOrder;
   loading: boolean;
   error: string | null;
   searchTerm: string;
@@ -14,7 +14,7 @@ export interface HomeState {
 export const initialHomeState: HomeState = {
   brands: [],
   filteredBrands: [],
-  selectedBrand: null,
+  orderedBrands: 'asc',
   loading: false,
   error: null,
   searchTerm: '',
