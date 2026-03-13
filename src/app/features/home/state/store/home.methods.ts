@@ -17,10 +17,6 @@ export const HomeMethodsStore =
             patchState(store, { loading });
         },
 
-        setError(error: string | null): void {
-            patchState(store, { error });
-        },
-
         setOrderedBrands(orderedBrands: SortOrder): void {
             patchState(store, { orderedBrands });
         },

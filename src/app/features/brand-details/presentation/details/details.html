@@ -1,0 +1,8 @@
+@defer (when !isLoading()) {
+{{vehicleTypes() | json}}
+{{models() | json}}
+}@placeholder {
+<div class="flex justify-center items-center min-h-[300px] sm:min-h-[400px]">
+    <app-spinner></app-spinner>
+</div>
+}

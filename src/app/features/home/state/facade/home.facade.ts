@@ -15,7 +15,12 @@ export class HomeFacade {
   private readonly homeApiService = inject(HomeApi);
   private readonly homeMethodsStore = inject(HomeStore);
   private readonly searchEngine = inject(SearchEngine);
+  
   public loadBrands(): void {
+    const brands = this.homeMethodsStore.brands();
+    if(brands.length > 0) {
+      return;
+    }
     this.homeMethodsStore.setLoading(true);
     this.homeApiService.getAllMakes().pipe(
       map((response: GetAllMakesResponse) => {

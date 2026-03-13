@@ -12,7 +12,7 @@
              overflow-auto bg-white dark:bg-gray-800 shadow-sm relative">
       
       <div *cdkVirtualFor="let item of brands()" class="p-3 sm:p-2">
-        <app-brand-card [brandName]="item.name"></app-brand-card>
+        <app-brand-card [brandName]="item.name" [brandId]="item.id"></app-brand-card>
       </div>
       
       @if (brands().length === 0) {

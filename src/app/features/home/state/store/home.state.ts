@@ -6,7 +6,6 @@ export interface HomeState {
   filteredBrands: VehicleBrand[];
   orderedBrands:  SortOrder;
   loading: boolean;
-  error: string | null;
   searchTerm: string;
   totalItems: number;
 }
@@ -16,7 +15,6 @@ export const initialHomeState: HomeState = {
   filteredBrands: [],
   orderedBrands: 'asc',
   loading: false,
-  error: null,
   searchTerm: '',
   totalItems: 0
 };
