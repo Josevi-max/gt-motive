@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SearchEngine } from './search-engine';
+import { provideZonelessChangeDetection } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('SearchEngine', () => {
   let component: SearchEngine;
@@ -8,7 +10,12 @@ describe('SearchEngine', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SearchEngine]
+      imports: [SearchEngine],
+      providers: [
+        provideZonelessChangeDetection(),
+        provideHttpClient()
+      ]
+
     })
     .compileComponents();
 
