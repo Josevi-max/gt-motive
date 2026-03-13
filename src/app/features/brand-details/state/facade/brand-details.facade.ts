@@ -12,10 +12,9 @@ export class BrandDetailsFacade {
   private readonly brandDetailsApiService = inject(BrandDetailsApi);
 
   public loadBrandDetails(brandId: number): void {
-    const models = this.brandDetailsMethodsStore.models();
-    const types = this.brandDetailsMethodsStore.vehicleTypes();
+    const lastLoadedBrandId = this.brandDetailsMethodsStore.lastLoadedBrandId();
 
-    if(models.length > 0 && types.length > 0) {
+    if(lastLoadedBrandId === brandId) {
       return;
     }
 
@@ -41,9 +40,9 @@ export class BrandDetailsFacade {
         this.brandDetailsMethodsStore.setModels(models);
         this.brandDetailsMethodsStore.setVehicleTypes(types);
         this.brandDetailsMethodsStore.setLoading(false);
+        this.brandDetailsMethodsStore.setLastLoadedBrandId(brandId);
       })
     ).subscribe();
   }
-
 
 }
