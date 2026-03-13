@@ -3,7 +3,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { errorInterceptor } from './core/error/interceptors/error-interceptor';
+import { errorInterceptor } from './core/features/error/interceptors/error-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

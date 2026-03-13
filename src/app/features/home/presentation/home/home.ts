@@ -4,9 +4,10 @@ import { HomeStore } from '../../state/store/home.store';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { BrandCard } from '../brand-card/brand-card';
 import { SearchEngine } from "../search-engine/search-engine";
+import { Spinner } from '../../../../shared/spinner/spinner';
 @Component({
   selector: 'app-home',
-  imports: [ScrollingModule, BrandCard, SearchEngine],
+  imports: [ScrollingModule, BrandCard, SearchEngine, Spinner],
   templateUrl: './home.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 
@@ -17,6 +18,10 @@ export class Home {
 
   public get brands(): Signal<VehicleBrand[]> {
     return computed(() => this.homeStore.filteredBrands());
+  }
+
+  public get isLoading(): Signal<boolean> {
+    return computed(() => this.homeStore.loading());
   }
 
 

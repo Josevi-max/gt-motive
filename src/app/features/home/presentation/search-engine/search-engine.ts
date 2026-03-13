@@ -5,7 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { HomeFacade } from '../../state/facade/home.facade';
 import { HomeStore } from '../../state/store/home.store';
-import { SortOrder } from '../../domain/models/home.models';
+import { SortOrder, VehicleBrand } from '../../domain/models/home.models';
 @Component({
   selector: 'app-search-engine',
   imports: [MatFormFieldModule, MatSelectModule, MatInputModule, MatIconModule],
@@ -21,6 +21,10 @@ export class SearchEngine {
 
   public get orderedBrand(): Signal<SortOrder> {
     return computed(() => this.homeStore.orderedBrands());
+  }
+
+  public get brands(): Signal<VehicleBrand[]> {
+    return computed(() => this.homeStore.filteredBrands());
   }
 
   public onSearchChange(value: string):void {
