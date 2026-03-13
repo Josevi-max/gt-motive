@@ -1,23 +1,51 @@
-<div class="flex gap-4 items-center">
+<div class="w-full">
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 items-start">
+    
+    <mat-form-field class="w-full sm:col-span-2">
+      <mat-icon matPrefix class="text-gray-500">search</mat-icon>
+      <input
+        matInput
+        placeholder="Buscar marca..."
+        [value]="searchEngine()"
+        (input)="onSearchChange($any($event.target).value)"
+        class="text-sm sm:text-base"
+      />
+      @if (searchEngine()) {
+        <button 
+          matSuffix 
+          mat-icon-button 
+          aria-label="Clear" 
+          (click)="onSearchChange('')"
+          class="text-gray-400 hover:text-gray-600">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+    </mat-form-field>
 
-  <mat-form-field  class="flex-1">
-    <mat-icon matPrefix>search</mat-icon>
-    <input
-      matInput
-      placeholder="Buscar..."
-      [value]="searchEngine()"
-      (input)="onSearchChange($event.target.value)"
-    />
-  </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label class="text-sm sm:text-base">Ordenar por</mat-label>
+      <mat-select
+        [value]="orderedBrand()"
+        (selectionChange)="changeSortOrder($event.value)"
+        class="text-sm sm:text-base">
+        <mat-option value="asc">
+          <div class="flex items-center gap-2">
+            <span>Ascendente (A-Z)</span>
+          </div>
+        </mat-option>
+        <mat-option value="desc">
+          <div class="flex items-center gap-2">
+            <span>Descendente (Z-A)</span>
+          </div>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Orden</mat-label>
-    <mat-select
-      [value]="orderedBrand()"
-      (selectionChange)="changeSortOrder($event.value)">
-      <mat-option value="asc">Ascendente</mat-option>
-      <mat-option value="desc">Descendente</mat-option>
-    </mat-select>
-  </mat-form-field>
+  </div>
 
+  @if (brands() && brands().length > 0) {
+    <div class="text-xs sm:text-sm text-gray-500 mt-2 px-1 text-right">
+      {{ brands().length }} {{ brands().length === 1 ? 'marca encontrada' : 'marcas encontradas' }}
+    </div>
+  }
 </div>
