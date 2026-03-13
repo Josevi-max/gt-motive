@@ -1,22 +1,12 @@
 import { patchState, withMethods } from "@ngrx/signals";
-import { SortOrder, VehicleBrand } from "../../domain/models/home.models";
+import { SortOrder } from "../../domain/models/home.models";
+import { VehicleBrand } from "../../../../core/features/commons/models/commons.models";
 
 export const HomeMethodsStore =
     withMethods((
         store
     ) => ({
-
-        setBrands(brands: VehicleBrand[]): void {
-            patchState(store, {
-                brands,
-                filteredBrands: brands
-            });
-        },
-
-        setLoading(loading: boolean): void {
-            patchState(store, { loading });
-        },
-
+        
         setOrderedBrands(orderedBrands: SortOrder): void {
             patchState(store, { orderedBrands });
         },

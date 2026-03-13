@@ -5,7 +5,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { HomeFacade } from '../../state/facade/home.facade';
 import { HomeStore } from '../../state/store/home.store';
-import { SortOrder, VehicleBrand } from '../../domain/models/home.models';
+import { SortOrder } from '../../domain/models/home.models';
+import { VehicleBrand } from '../../../../core/features/commons/models/commons.models';
 @Component({
   selector: 'app-search-engine',
   imports: [MatFormFieldModule, MatSelectModule, MatInputModule, MatIconModule],

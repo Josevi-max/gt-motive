@@ -1,8 +1,15 @@
-@defer (when !isLoading()) {
-{{vehicleTypes() | json}}
-{{models() | json}}
-}@placeholder {
-<div class="flex justify-center items-center min-h-[300px] sm:min-h-[400px]">
-    <app-spinner></app-spinner>
+<div class="min-h-screen">
+    <header class="py-8 px-4 sm:px-6 lg:px-8 title-header">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center gap-4">
+                <div class="w-16 h-16 rounded-2xl flex items-center justify-center icon">
+                    <mat-icon class="text-white!">travel_explore</mat-icon>
+                </div>
+                <div>
+                    <h1 class="text-4xl font-bold text-white mb-2">{{brandName()}}</h1>
+                    <p class="text-white/70">Descubre todos los modelos y tipos de vehículo disponibles</p>
+                </div>
+            </div>
+        </div>
+    </header>
 </div>
-}

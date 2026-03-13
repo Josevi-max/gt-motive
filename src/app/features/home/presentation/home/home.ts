@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, inject, Signal } from '@angular/core';
-import { VehicleBrand } from '../../domain/models/home.models';
-import { HomeStore } from '../../state/store/home.store';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { BrandCard } from '../brand-card/brand-card';
 import { SearchEngine } from "../search-engine/search-engine";
 import { Spinner } from '../../../../shared/spinner/spinner';
+import { VehicleBrand } from '../../../../core/features/commons/models/commons.models';
+import { HomeFacade } from '../../state/facade/home.facade';
+import { CommonFacade } from '../../../../core/features/commons/state/facade/common.facade';
 @Component({
   selector: 'app-home',
   imports: [ScrollingModule, BrandCard, SearchEngine, Spinner],
@@ -14,15 +15,10 @@ import { Spinner } from '../../../../shared/spinner/spinner';
 })
 export class Home {
 
-  private readonly homeStore = inject(HomeStore);
+  private readonly homeFacade = inject(HomeFacade);
+  private readonly commonFacade = inject(CommonFacade);
 
-  public get brands(): Signal<VehicleBrand[]> {
-    return computed(() => this.homeStore.filteredBrands());
-  }
-
-  public get isLoading(): Signal<boolean> {
-    return computed(() => this.homeStore.loading());
-  }
-
+  protected readonly brands = this.homeFacade.filterBrandsData;
+  protected readonly isLoading = this.commonFacade.isLoading;
 
 }

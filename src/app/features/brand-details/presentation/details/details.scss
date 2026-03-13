@@ -1,0 +1,9 @@
+@use '../../../../styles/index.scss' as *;
+
+.title-header {
+    background: $gradient-header;
+
+    .icon {
+        background: $card-icon-background
+    }
+}

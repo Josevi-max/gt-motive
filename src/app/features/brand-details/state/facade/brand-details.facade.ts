@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { BrandDetailsStore } from '../store/brand-details.store';
 import { BrandDetailsApi } from '../../infrastructure/api/brand-details-api';
 import { combineLatest, map, tap } from 'rxjs';
+import { CommonFacade } from '../../../../core/features/commons/state/facade/common.facade';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ export class BrandDetailsFacade {
   
   private readonly brandDetailsMethodsStore = inject(BrandDetailsStore);
   private readonly brandDetailsApiService = inject(BrandDetailsApi);
-
+  private readonly commonFacade = inject(CommonFacade);
   public loadBrandDetails(brandId: number): void {
     const lastLoadedBrandId = this.brandDetailsMethodsStore.lastLoadedBrandId();
 
@@ -37,12 +38,20 @@ export class BrandDetailsFacade {
         return { models, types };
       }),
       tap(({ models, types }) => {
+        this.setBrandNameById(brandId);
         this.brandDetailsMethodsStore.setModels(models);
         this.brandDetailsMethodsStore.setVehicleTypes(types);
         this.brandDetailsMethodsStore.setLoading(false);
         this.brandDetailsMethodsStore.setLastLoadedBrandId(brandId);
       })
     ).subscribe();
+  }
+
+  private setBrandNameById(brandId: number): void {
+    const brands = this.commonFacade.brands();
+    const brand = brands.find(b => Number(b.id) === Number(brandId));
+    const brandName = brand ? brand.name : '';
+    this.brandDetailsMethodsStore.setBrandName(brandName);
   }
 
 }

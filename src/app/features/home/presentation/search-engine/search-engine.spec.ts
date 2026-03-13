@@ -2,9 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { HomeFacade } from '../../state/facade/home.facade';
 import { HomeStore } from '../../state/store/home.store';
-import { SortOrderEnum, VehicleBrand } from '../../domain/models/home.models';
+import { SortOrderEnum } from '../../domain/models/home.models';
 import { By } from '@angular/platform-browser';
 import { SearchEngine } from './search-engine';
+import { VehicleBrand } from '../../../../core/features/commons/models/commons.models';
 
 describe('SearchEngine con zoneless', () => {
   let component: SearchEngine;

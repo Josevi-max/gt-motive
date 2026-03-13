@@ -21,6 +21,10 @@ export const BrandDetailsMethodsStore =
             patchState(store, { lastLoadedBrandId: brandId });
         },
 
+        setBrandName(brandName: string): void {
+            patchState(store, { brandName });
+        },
+
         resetState(): void {
             patchState(store, initialBrandDetailsState);
         },
