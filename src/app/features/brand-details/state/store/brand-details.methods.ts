@@ -17,6 +17,10 @@ export const BrandDetailsMethodsStore =
             patchState(store, { loading });
         },
 
+        setLastLoadedBrandId(brandId: number | undefined): void {
+            patchState(store, { lastLoadedBrandId: brandId });
+        },
+
         resetState(): void {
             patchState(store, initialBrandDetailsState);
         },
