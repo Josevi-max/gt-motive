@@ -1,50 +1,42 @@
-import { inject, Injectable } from '@angular/core';
-import { HomeApi } from '../../infrastructure/api/home.api';
-import { map, tap } from 'rxjs';
-import { GetAllMakesResponse } from '../../infrastructure/models/home.dto';
-import { HomeMethodsStore } from '../store/home.methods';
-import { SortOrder, VehicleBrand } from '../../domain/models/home.models';
+import { inject, Injectable, Signal } from '@angular/core';
+import { SortOrder } from '../../domain/models/home.models';
 import { HomeStore } from '../store/home.store';
 import { SearchEngine } from '../../domain/services/search-engine';
+import { CommonFacade } from '../../../../core/features/commons/state/facade/common.facade';
+import { VehicleBrand } from '../../../../core/features/commons/models/commons.models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HomeFacade {
 
-  private readonly homeApiService = inject(HomeApi);
+  public readonly filterBrandsData: Signal<VehicleBrand[]>;
+  public readonly orderedBrands: Signal<SortOrder>;
+  public readonly searchTerm: Signal<string>;
+  public readonly filteredResultsCount: Signal<number>;
+
   private readonly homeMethodsStore = inject(HomeStore);
   private readonly searchEngine = inject(SearchEngine);
+  private readonly commonFacade = inject(CommonFacade);
+
+  constructor() {
+    this.filterBrandsData = this.homeMethodsStore.filteredBrands;
+    this.orderedBrands = this.homeMethodsStore.orderedBrands;
+    this.searchTerm = this.homeMethodsStore.searchTerm;
+    this.filteredResultsCount = this.homeMethodsStore.filteredResultsCount;
+  }
+
+  public initFilterBrands(): void {
+    const brands = this.commonFacade.brands();
+    const sortedBrands = this.searchEngine.sortBrands(brands);
+    this.homeMethodsStore.setFilteredBrands(sortedBrands);
+  }
+
+  public searchBrands(searchTerm: string): void {
+    this.homeMethodsStore.setSearchTerm(searchTerm);
+  }
   
-  public loadBrands(): void {
-    const brands = this.homeMethodsStore.brands();
-    if(brands.length > 0) {
-      return;
-    }
-    this.homeMethodsStore.setLoading(true);
-    this.homeApiService.getAllMakes().pipe(
-      map((response: GetAllMakesResponse) => {
-        return response.Results.map(result => ({
-          id: result.Make_ID,
-          name: result.Make_Name
-        }));
-      }),
-      tap((brands: VehicleBrand[]) => {
-        this.homeMethodsStore.setBrands(brands);
-        const sortedBrands = this.searchEngine.sortBrands(brands);
-        this.homeMethodsStore.setFilteredBrands(sortedBrands);
-        this.homeMethodsStore.setLoading(false);
-      })
-    ).subscribe();
-  }
-  public filterBrands(searchTerm: string): void {
-    const filteredBrands = this.searchEngine.filterBrands(searchTerm);
-    this.homeMethodsStore.setFilteredBrands(filteredBrands);
-  }
   public changeSortOrder(order: SortOrder): void {
     this.homeMethodsStore.setOrderedBrands(order);
-    const filteredBrands = this.homeMethodsStore.filteredBrands();
-    const sortedBrands = this.searchEngine.sortBrands(filteredBrands, order);
-    this.homeMethodsStore.setFilteredBrands(sortedBrands);
   }
 }

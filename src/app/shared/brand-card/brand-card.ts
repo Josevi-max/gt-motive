@@ -12,5 +12,5 @@ import { RouterLink } from '@angular/router';
 })
 export class BrandCard {
   @Input() brandName: string = '';
-  @Input({required: true}) brandId!: number;
+  @Input() link: (string | number)[] = [];
 }

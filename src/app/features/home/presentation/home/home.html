@@ -1,29 +1,21 @@
 <div class="p-4 sm:p-5 max-w-7xl mx-auto w-full">
-  @defer (when !isLoading()) {
-    <div class="mb-4 sm:mb-6">
-      <app-search-engine></app-search-engine>
-    </div>
+  <div class="mb-4 sm:mb-6">
+    <app-search-engine></app-search-engine>
+  </div>
 
-    <cdk-virtual-scroll-viewport 
-      itemSize="50" 
-      class="w-full mt-4 sm:mt-5 rounded-lg border border-gray-200 dark:border-gray-700
+  <cdk-virtual-scroll-viewport itemSize="50" class="w-full mt-4 sm:mt-5 rounded-lg border border-gray-200 dark:border-gray-700
              min-h-[300px] sm:min-h-[600px]
              max-h-[70vh] sm:max-h-[70vh]
              overflow-auto bg-white dark:bg-gray-800 shadow-sm relative">
-      
-      <div *cdkVirtualFor="let item of brands()" class="p-3 sm:p-2">
-        <app-brand-card [brandName]="item.name" [brandId]="item.id"></app-brand-card>
-      </div>
-      
-      @if (brands().length === 0) {
-        <div class="flex justify-center items-center h-32 sm:h-48 text-gray-500">
-          <p class="text-sm sm:text-base">No hay marcas disponibles</p>
-        </div>
-      }
-    </cdk-virtual-scroll-viewport>
-  } @placeholder {
-    <div class="flex justify-center items-center min-h-[300px] sm:min-h-[400px]">
-      <app-spinner></app-spinner>
+
+    <div *cdkVirtualFor="let item of brands()" class="p-3 sm:p-2">
+      <app-brand-card [brandName]="item.name" [link]="['/brand', item.id, 'information']"></app-brand-card>
     </div>
-  }
+    @if (filteredResultsCount() === 0) {
+    <div class="flex justify-center items-center h-32 sm:h-48 text-gray-500">
+      <p class="text-sm sm:text-base">No hay marcas disponibles</p>
+    </div>
+    }
+  </cdk-virtual-scroll-viewport>
+
 </div>

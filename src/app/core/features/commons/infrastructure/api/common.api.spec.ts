@@ -2,10 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 
-import { HomeApi } from './home.api';
+import { CommonApi } from './common.api';
 
-describe('HomeApi', () => {
-  let service: HomeApi;
+describe('CommonApi', () => {
+  let service: CommonApi;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -15,7 +15,7 @@ describe('HomeApi', () => {
       ]
     });
 
-    service = TestBed.inject(HomeApi);
+    service = TestBed.inject(CommonApi);
   });
 
   it('should be created', () => {

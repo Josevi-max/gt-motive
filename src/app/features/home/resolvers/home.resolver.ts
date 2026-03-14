@@ -1,9 +1,17 @@
 import { inject } from "@angular/core";
-import { HomeFacade } from "../state/facade/home.facade";
 import { ResolveFn } from "@angular/router";
+import { CommonFacade } from "../../../core/features/commons/state/facade/common.facade";
+import { HomeFacade } from "../state/facade/home.facade";
+import { tap } from "rxjs";
+import { VehicleBrand } from "../../../core/features/commons/models/commons.models";
 
-
-export const loadBrandsResolver: ResolveFn<void> = (route, state) => {
+export const loadBrandsResolver: ResolveFn<VehicleBrand[]> = (route, state) => {
+  const commonFacade = inject(CommonFacade);
   const homeFacade = inject(HomeFacade);
-  homeFacade.loadBrands();
+  
+  return commonFacade.loadAllBrands().pipe(
+    tap(() => {
+      homeFacade.initFilterBrands();
+    })
+  );
 };

@@ -1,1 +1,5 @@
-<mat-spinner></mat-spinner>
+@if(isLoading() || showSpinner) {
+<div class="flex justify-center items-center min-h-[300px] sm:min-h-[400px]">
+    <mat-spinner></mat-spinner>
+</div>
+}

@@ -6,13 +6,15 @@ export interface BrandDetailsState {
   models: VehicleModelData[];
   loading: boolean;
   lastLoadedBrandId: number | undefined;
+  brandName: string;
 }
 
 export const initialBrandDetailsState: BrandDetailsState = {
   vehicleTypes: [],
   models: [],
   loading: false,
-  lastLoadedBrandId: undefined
+  lastLoadedBrandId: undefined,
+  brandName: ''
 };
 
 export const BrandDetailsStateStore = withState<BrandDetailsState>(initialBrandDetailsState)

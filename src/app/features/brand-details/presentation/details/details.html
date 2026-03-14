@@ -1,8 +1,82 @@
-@defer (when !isLoading()) {
-{{vehicleTypes() | json}}
-{{models() | json}}
-}@placeholder {
-<div class="flex justify-center items-center min-h-[300px] sm:min-h-[400px]">
-    <app-spinner></app-spinner>
+@defer (when !isLoadingBrandDetails()) {
+<div class="min-h-screen">
+    <div class="py-8 px-4 sm:px-6 lg:px-8 title-header">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center gap-4">
+                <div class="w-16 h-16 rounded-2xl flex items-center justify-center icon">
+                    <mat-icon class="text-white!">travel_explore</mat-icon>
+                </div>
+                <div>
+                    <h1 class="text-4xl font-bold text-white mb-2">{{brandName()}}</h1>
+                    <p class="text-white/70">Descubre todos los modelos y tipos de vehículo disponibles</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <div class="flex items-center justify-between ">
+
+            <h2 class="text-white text-xl font-semibold mb-4">
+                Tipos de vehiculos
+            </h2>
+
+            <span class="text-white/60 text-sm">
+                {{totalVehiclesTypes()}} tipo/s de vehiculos
+            </span>
+
+        </div>
+
+        <mat-chip-set class="flex flex-wrap gap-3">
+
+            @for (type of vehicleTypes(); track type.id) {
+            <mat-chip class="vehicle-chip" selectable>
+                <mat-icon matChipAvatar>directions_car</mat-icon>
+                <span class="text-white">
+                    {{ type.name }}
+                </span>
+            </mat-chip>
+            }
+
+        </mat-chip-set>
+
+    </section>
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="flex items-center justify-between mb-6">
+
+            <h2 class="text-white text-xl font-semibold">
+                Modelos
+            </h2>
+
+            <span class="text-white/60 text-sm">
+                {{ totalModels() }} modelo/s disponibles
+            </span>
+
+        </div>
+
+    </section>
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 overflow-y-auto overflow-x-hidden h-[500px]">
+            
+
+            @for (model of models(); track model.idModel) {
+
+            <div class="rounded-2xl p-5 cursor-pointer transition-all duration-300
+               hover:scale-[1.03] card">
+
+                <app-brand-card [brandName]="model.nameModel" [link]="[]"></app-brand-card>
+            </div>
+
+            }
+
+        </div>
+
+    </section>
 </div>
+}@placeholder {
+<app-spinner [showSpinner]="isLoadingBrandDetails()"></app-spinner>
 }

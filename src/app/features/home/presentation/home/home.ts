@@ -1,28 +1,26 @@
-import { ChangeDetectionStrategy, Component, computed, inject, Signal } from '@angular/core';
-import { VehicleBrand } from '../../domain/models/home.models';
-import { HomeStore } from '../../state/store/home.store';
+import { ChangeDetectionStrategy, Component, inject, Signal } from '@angular/core';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { BrandCard } from '../brand-card/brand-card';
 import { SearchEngine } from "../search-engine/search-engine";
-import { Spinner } from '../../../../shared/spinner/spinner';
+import { HomeFacade } from '../../state/facade/home.facade';
+import { VehicleBrand } from '../../../../core/features/commons/models/commons.models';
+import { BrandCard } from '../../../../shared/brand-card/brand-card';
 @Component({
   selector: 'app-home',
-  imports: [ScrollingModule, BrandCard, SearchEngine, Spinner],
+  imports: [ScrollingModule, BrandCard, SearchEngine],
   templateUrl: './home.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 
 })
 export class Home {
 
-  private readonly homeStore = inject(HomeStore);
+  public filteredResultsCount: Signal<number>;
+  public brands: Signal<VehicleBrand[]>;
 
-  public get brands(): Signal<VehicleBrand[]> {
-    return computed(() => this.homeStore.filteredBrands());
+  private readonly homeFacade = inject(HomeFacade);
+
+  constructor() {
+    this.filteredResultsCount = this.homeFacade.filteredResultsCount;
+    this.brands = this.homeFacade.filterBrandsData;
   }
-
-  public get isLoading(): Signal<boolean> {
-    return computed(() => this.homeStore.loading());
-  }
-
 
 }
