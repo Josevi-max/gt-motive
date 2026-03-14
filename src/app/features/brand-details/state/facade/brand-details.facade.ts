@@ -1,7 +1,7 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { BrandDetailsStore } from '../store/brand-details.store';
 import { BrandDetailsApi } from '../../infrastructure/api/brand-details-api';
-import { combineLatest, map, tap } from 'rxjs';
+import { forkJoin, map, tap } from 'rxjs';
 import { CommonFacade } from '../../../../core/features/commons/state/facade/common.facade';
 import { VehicleModelData, VehicleTypeData } from '../../domain/models/brand-details.models';
 
@@ -46,7 +46,7 @@ export class BrandDetailsFacade {
       return;
     }
     this.brandDetailsMethodsStore.setLoading(true);
-    combineLatest([
+    forkJoin([
       this.brandDetailsApiService.getBrandDetails(brandId),
       this.brandDetailsApiService.getVehicleTypesForBrand(brandId)
     ]).pipe(
