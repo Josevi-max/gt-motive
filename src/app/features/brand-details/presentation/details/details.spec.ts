@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideZonelessChangeDetection, signal } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
-import { By } from '@angular/platform-browser';
 
 import { Details } from './details';
 import { BrandDetailsFacade } from '../../state/facade/brand-details.facade';
@@ -100,6 +99,23 @@ describe('Details', () => {
       
       const result = (component as any).calculateGridColumns();
       expect(result).toBe(1);
+    });
+  });
+
+  describe('getGridClasses', () => {
+    it('should return correct grid classes string', () => {
+      brandDetailsFacadeMock.totalModels.set(4);
+      fixture.detectChanges();
+      
+      const result = component.getGridClasses();
+      expect(result).toBe('grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6 overflow-y-auto overflow-x-hidden h-[400px]');
+    });
+  });
+
+  describe('loadMore', () => {
+    it('should call facade loadMoreModels', () => {
+      component.loadMore();
+      expect(brandDetailsFacadeMock.loadMoreModels).toHaveBeenCalled();
     });
   });
 })
