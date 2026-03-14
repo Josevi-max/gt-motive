@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Spinner } from './spinner';
 import { provideZonelessChangeDetection } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('Spinner', () => {
   let component: Spinner;
@@ -10,7 +11,7 @@ describe('Spinner', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Spinner],
-      providers: [provideZonelessChangeDetection()]
+      providers: [provideZonelessChangeDetection(),provideHttpClient()]
 
     })
     .compileComponents();

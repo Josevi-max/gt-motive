@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BrandCard } from './brand-card';
 import { provideZonelessChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
 
 describe('BrandCard', () => {
   let component: BrandCard;
@@ -10,7 +11,7 @@ describe('BrandCard', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [BrandCard],
-      providers: [provideZonelessChangeDetection()]
+      providers: [provideZonelessChangeDetection(),provideRouter([])]
     })
       .compileComponents();
 
