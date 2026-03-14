@@ -11,14 +11,10 @@ export const HomeMethodsStore =
             patchState(store, { orderedBrands });
         },
 
-        setFilteredBrands(filteredBrands: VehicleBrand[]): void {
-            patchState(store, { filteredBrands });
-        },
-        
         setSearchTerm(searchTerm: string): void {
             patchState(store, { searchTerm });
         },
-
+        
         resetState(): void {
             patchState(store, {
                 brands: [],

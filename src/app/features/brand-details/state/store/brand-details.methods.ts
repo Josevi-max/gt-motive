@@ -1,5 +1,5 @@
 import { withMethods, patchState } from '@ngrx/signals';
-import { initialBrandDetailsState } from './brand-details.state';
+import { initialBrandDetailsState, BrandDetailsState } from './brand-details.state';
 import { VehicleModelData, VehicleTypeData } from '../../domain/models/brand-details.models';
 
 export const BrandDetailsMethodsStore =
@@ -11,6 +11,10 @@ export const BrandDetailsMethodsStore =
 
         setModels(models: VehicleModelData[]): void {
             patchState(store, { models });
+        },
+
+        setModelsLoaded(modelsLoaded: VehicleModelData[]): void {
+            patchState(store, { modelsLoaded });
         },
 
         setLoading(loading: boolean): void {
@@ -28,4 +32,10 @@ export const BrandDetailsMethodsStore =
         resetState(): void {
             patchState(store, initialBrandDetailsState);
         },
-    }))
+
+        updateModelsLoaded(newModelsToLoad: VehicleModelData[]): void {
+            patchState(store, (state: BrandDetailsState) => ({
+                modelsLoaded: [...state.modelsLoaded, ...newModelsToLoad]
+            }));
+        },
+    }));
