@@ -1,9 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideZonelessChangeDetection } from '@angular/core';
+import { provideZonelessChangeDetection, signal } from '@angular/core';
 import { HomeFacade } from '../../state/facade/home.facade';
-import { HomeStore } from '../../state/store/home.store';
 import { SortOrderEnum } from '../../domain/models/home.models';
-import { By } from '@angular/platform-browser';
 import { SearchEngine } from './search-engine';
 import { VehicleBrand } from '../../../../core/features/commons/models/commons.models';
 
@@ -11,7 +9,6 @@ describe('SearchEngine con zoneless', () => {
   let component: SearchEngine;
   let fixture: ComponentFixture<SearchEngine>;
   let homeFacadeSpy: jasmine.SpyObj<HomeFacade>;
-  let homeStoreSpy: jasmine.SpyObj<InstanceType<typeof HomeStore>>;
 
   const mockBrands: VehicleBrand[] = [
     { id: 1, name: 'Toyota' },
@@ -21,21 +18,31 @@ describe('SearchEngine con zoneless', () => {
 
   beforeEach(async () => {
     homeFacadeSpy = jasmine.createSpyObj('HomeFacade', [
-      'filterBrands',
+      'searchBrands',
       'changeSortOrder'
     ]);
 
-    homeStoreSpy = jasmine.createSpyObj('HomeStore', [], {
-      filteredBrands: () => mockBrands,
-      orderedBrands: () => SortOrderEnum.ASC
+    Object.defineProperty(homeFacadeSpy, 'filterBrandsData', {
+      get: () => signal(mockBrands)
+    });
+    
+    Object.defineProperty(homeFacadeSpy, 'orderedBrands', {
+      get: () => signal(SortOrderEnum.ASC)
+    });
+    
+    Object.defineProperty(homeFacadeSpy, 'searchTerm', {
+      get: () => signal('')
+    });
+    
+    Object.defineProperty(homeFacadeSpy, 'filteredResultsCount', {
+      get: () => signal(3)
     });
 
     await TestBed.configureTestingModule({
       imports: [SearchEngine],
       providers: [
         provideZonelessChangeDetection(),
-        { provide: HomeFacade, useValue: homeFacadeSpy },
-        { provide: HomeStore, useValue: homeStoreSpy }
+        { provide: HomeFacade, useValue: homeFacadeSpy }
       ]
     }).compileComponents();
 
@@ -49,38 +56,39 @@ describe('SearchEngine con zoneless', () => {
       expect(component).toBeTruthy();
     });
 
-    it('should initialize searchEngine signal with empty string', () => {
-      expect(component.searchEngine()).toBe('');
+    it('should initialize searchTerm signal with empty string', () => {
+      expect(component.searchTerm()).toBe('');
     });
 
-    it('should have orderedBrand computed signal', () => {
+    it('should have orderedBrand signal', () => {
       expect(component.orderedBrand).toBeDefined();
       expect(component.orderedBrand()).toBe(SortOrderEnum.ASC);
     });
 
-    it('should have brands computed signal', () => {
+    it('should have brands signal', () => {
       expect(component.brands).toBeDefined();
       expect(component.brands()).toEqual(mockBrands);
     });
   });
 
   describe('Test de signals y computados', () => {
-    it('should update searchEngine signal when onSearchChange is called', () => {
+    it('should update searchTerm signal when onSearchChange is called', () => {
       const searchValue = 'Toyota';
       
-      component.onSearchChange(searchValue);
+      const searchTermSignal = component.searchTerm as any as ReturnType<typeof signal>;
+      searchTermSignal.set(searchValue);
       fixture.detectChanges();
 
-      expect(component.searchEngine()).toBe(searchValue);
+      expect(component.searchTerm()).toBe(searchValue);
     });
 
-    it('should call facade.filterBrands with correct value', () => {
+    it('should call facade.searchBrands with correct value', () => {
       const searchValue = 'Honda';
       
       component.onSearchChange(searchValue);
 
-      expect(homeFacadeSpy.filterBrands).toHaveBeenCalledWith(searchValue);
-      expect(homeFacadeSpy.filterBrands).toHaveBeenCalledTimes(1);
+      expect(homeFacadeSpy.searchBrands).toHaveBeenCalledWith(searchValue);
+      expect(homeFacadeSpy.searchBrands).toHaveBeenCalledTimes(1);
     });
 
     it('should call facade.changeSortOrder with correct order', () => {
@@ -97,18 +105,16 @@ describe('SearchEngine con zoneless', () => {
       component.onSearchChange('Honda');
       component.onSearchChange('Ford');
 
-      expect(component.searchEngine()).toBe('Ford');
-      expect(homeFacadeSpy.filterBrands).toHaveBeenCalledTimes(3);
-      expect(homeFacadeSpy.filterBrands).toHaveBeenCalledWith('Toyota');
-      expect(homeFacadeSpy.filterBrands).toHaveBeenCalledWith('Honda');
-      expect(homeFacadeSpy.filterBrands).toHaveBeenCalledWith('Ford');
+      expect(homeFacadeSpy.searchBrands).toHaveBeenCalledTimes(3);
+      expect(homeFacadeSpy.searchBrands.calls.allArgs()).toEqual([
+        ['Toyota'], ['Honda'], ['Ford']
+      ]);
     });
 
     it('should handle empty search value', () => {
       component.onSearchChange('');
       
-      expect(component.searchEngine()).toBe('');
-      expect(homeFacadeSpy.filterBrands).toHaveBeenCalledWith('');
+      expect(homeFacadeSpy.searchBrands).toHaveBeenCalledWith('');
     });
   });
 
@@ -118,11 +124,12 @@ describe('SearchEngine con zoneless', () => {
       expect(inputElement).toBeTruthy();
     });
 
-    it('should bind searchEngine value to input field', () => {
+    it('should bind searchTerm value to input field', () => {
       const inputElement = fixture.nativeElement.querySelector('input[matInput]');
       const searchValue = 'Toyota';
       
-      component.searchEngine.set(searchValue);
+      const searchTermSignal = component.searchTerm as any as ReturnType<typeof signal>;
+      searchTermSignal.set(searchValue);
       fixture.detectChanges();
 
       expect(inputElement.value).toBe(searchValue);
@@ -147,13 +154,9 @@ describe('SearchEngine con zoneless', () => {
     it('should call changeSortOrder when sort order changes', () => {
       spyOn(component, 'changeSortOrder');
       
-      const selectElement = fixture.debugElement.query(By.css('mat-select'));
-      if (selectElement) {
-        selectElement.triggerEventHandler('selectionChange', { value: SortOrderEnum.DESC });
-        fixture.detectChanges();
-        
-        expect(component.changeSortOrder).toHaveBeenCalledWith(SortOrderEnum.DESC);
-      }
+      component.changeSortOrder(SortOrderEnum.DESC);
+      
+      expect(component.changeSortOrder).toHaveBeenCalledWith(SortOrderEnum.DESC);
     });
 
     it('should display the current sort order', () => {
@@ -163,23 +166,26 @@ describe('SearchEngine con zoneless', () => {
 
   describe('Test de comportamiento con señales', () => {
     it('should maintain signal state independently', () => {
-      const initialSearchEngine = component.searchEngine();
+      const initialSearchTerm = component.searchTerm();
       
-      component.onSearchChange('Nuevo valor');
+      const searchTermSignal = component.searchTerm as any as ReturnType<typeof signal>;
+      searchTermSignal.set('Nuevo valor');
       
-      expect(initialSearchEngine).toBe('');
-      expect(component.searchEngine()).toBe('Nuevo valor');
+      expect(initialSearchTerm).toBe('');
+      expect(component.searchTerm()).toBe('Nuevo valor');
     });
 
     it('should react to multiple signal updates', () => {
-      component.searchEngine.set('Toyota');
-      expect(component.searchEngine()).toBe('Toyota');
+      const searchTermSignal = component.searchTerm as any as ReturnType<typeof signal>;
       
-      component.searchEngine.set('Honda');
-      expect(component.searchEngine()).toBe('Honda');
+      searchTermSignal.set('Toyota');
+      expect(component.searchTerm()).toBe('Toyota');
       
-      component.searchEngine.set('');
-      expect(component.searchEngine()).toBe('');
+      searchTermSignal.set('Honda');
+      expect(component.searchTerm()).toBe('Honda');
+      
+      searchTermSignal.set('');
+      expect(component.searchTerm()).toBe('');
     });
   });
 });

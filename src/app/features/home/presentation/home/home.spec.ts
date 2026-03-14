@@ -1,30 +1,41 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideZonelessChangeDetection } from '@angular/core';
-
 import { Home } from './home';
-import { VehicleBrand } from '../../domain/models/home.models';
 import { HomeStore } from '../../state/store/home.store';
+import { VehicleBrand } from '../../../../core/features/commons/models/commons.models';
+import { provideHttpClient } from '@angular/common/http';
+import { signal } from '@angular/core';
 
 describe('Home', () => {
   let component: Home;
   let fixture: ComponentFixture<Home>;
-  let homeStoreMock: {
-    filteredBrands: () => VehicleBrand[];
-    loading: () => boolean;
-  };
+  let homeStoreMock: any;
+
   const mockBrands: VehicleBrand[] = [
     { id: 1, name: 'Toyota' },
     { id: 2, name: 'Honda' },
     { id: 3, name: 'Ford' }
   ];
+
   beforeEach(async () => {
     homeStoreMock = {
-      filteredBrands: () => mockBrands,
-      loading: () => false
+      filteredBrands: signal(mockBrands),
+      filteredResultsCount: signal(3),
+      orderedBrands: signal('asc' as const),
+      searchTerm: signal(''),
+      
+      // Métodos del store
+      setSearchTerm: jasmine.createSpy('setSearchTerm'),
+      setOrderedBrands: jasmine.createSpy('setOrderedBrands')
     };
+
     await TestBed.configureTestingModule({
       imports: [Home],
-      providers: [provideZonelessChangeDetection(), { provide: HomeStore, useValue: homeStoreMock }]
+      providers: [
+        provideZonelessChangeDetection(),
+        { provide: HomeStore, useValue: homeStoreMock },
+        provideHttpClient()
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(Home);
@@ -43,8 +54,8 @@ describe('Home', () => {
   });
 
   it('should return isLoading signal from store', () => {
-    const isLoadingSignal = component.isLoading;
-    expect(isLoadingSignal).toBeDefined();
-    expect(isLoadingSignal()).toBeFalse();
+    const filteredCountSignal = component.filteredResultsCount;
+    expect(filteredCountSignal).toBeDefined();
+    expect(filteredCountSignal()).toBe(3);
   });
 });
