@@ -4,6 +4,7 @@ import { VehicleModelData, VehicleTypeData } from '../../domain/models/brand-det
 export interface BrandDetailsState {
   vehicleTypes: VehicleTypeData[];
   models: VehicleModelData[];
+  modelsLoaded: VehicleModelData[];
   loading: boolean;
   lastLoadedBrandId: number | undefined;
   brandName: string;
@@ -12,6 +13,7 @@ export interface BrandDetailsState {
 export const initialBrandDetailsState: BrandDetailsState = {
   vehicleTypes: [],
   models: [],
+  modelsLoaded: [],
   loading: false,
   lastLoadedBrandId: undefined,
   brandName: ''

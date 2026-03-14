@@ -29,7 +29,6 @@ export class HomeFacade {
   public initFilterBrands(): void {
     const brands = this.commonFacade.brands();
     const sortedBrands = this.searchEngine.sortBrands(brands);
-    this.homeMethodsStore.setFilteredBrands(sortedBrands);
   }
 
   public searchBrands(searchTerm: string): void {
