@@ -12,7 +12,7 @@
       <app-brand-card [brandName]="item.name" [brandId]="item.id"></app-brand-card>
     </div>
 
-    @if (brands.length === 0) {
+    @if (filteredResultsCount() === 0) {
     <div class="flex justify-center items-center h-32 sm:h-48 text-gray-500">
       <p class="text-sm sm:text-base">No hay marcas disponibles</p>
     </div>

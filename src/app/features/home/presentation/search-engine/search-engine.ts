@@ -15,22 +15,22 @@ import { VehicleBrand } from '../../../../core/features/commons/models/commons.m
 })
 export class SearchEngine {
 
-  public searchEngine: WritableSignal<string> = signal('');
+  public searchTerm: Signal<string>;
+  public brands: Signal<VehicleBrand[]>;
+  public orderedBrand: Signal<SortOrder>;
+  public filteredResultsCount: Signal<number>;
 
   private readonly homefacade = inject(HomeFacade);
-  private readonly homeStore = inject(HomeStore);
 
-  public get orderedBrand(): Signal<SortOrder> {
-    return computed(() => this.homeStore.orderedBrands());
-  }
-
-  public get brands(): Signal<VehicleBrand[]> {
-    return computed(() => this.homeStore.filteredBrands());
+  constructor() {
+    this.brands = this.homefacade.filterBrandsData;
+    this.orderedBrand = this.homefacade.orderedBrands
+    this.searchTerm = this.homefacade.searchTerm;
+    this.filteredResultsCount = this.homefacade.filteredResultsCount;
   }
 
   public onSearchChange(value: string):void {
-    this.searchEngine.set(value);
-    this.homefacade.filterBrands(value);
+    this.homefacade.searchBrands(value);
   }
 
   public changeSortOrder(order: SortOrder):void {

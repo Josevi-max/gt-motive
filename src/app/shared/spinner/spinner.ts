@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { CommonFacade } from '../../core/features/commons/state/facade/common.facade';
 @Component({
@@ -7,6 +7,9 @@ import { CommonFacade } from '../../core/features/commons/state/facade/common.fa
   templateUrl: './spinner.html'
 })
 export class Spinner {
+
+  @Input() showSpinner: boolean = false;
+
   private readonly commonFacade = inject(CommonFacade);
 
   protected readonly isLoading = this.commonFacade.isLoading;

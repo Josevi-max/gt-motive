@@ -1,8 +1,6 @@
-import { inject, Injectable } from '@angular/core';
-import { HomeStore } from '../../state/store/home.store';
+import { Injectable } from '@angular/core';
 import { SortOrder, SortOrderEnum } from '../models/home.models';
 import { VehicleBrand } from '../../../../core/features/commons/models/commons.models';
-import { HomeFacade } from '../../state/facade/home.facade';
 
 @Injectable({
   providedIn: 'root',

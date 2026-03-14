@@ -1,20 +1,30 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, Signal } from '@angular/core';
 import { SortOrder } from '../../domain/models/home.models';
 import { HomeStore } from '../store/home.store';
 import { SearchEngine } from '../../domain/services/search-engine';
 import { CommonFacade } from '../../../../core/features/commons/state/facade/common.facade';
+import { VehicleBrand } from '../../../../core/features/commons/models/commons.models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HomeFacade {
 
+  public readonly filterBrandsData: Signal<VehicleBrand[]>;
+  public readonly orderedBrands: Signal<SortOrder>;
+  public readonly searchTerm: Signal<string>;
+  public readonly filteredResultsCount: Signal<number>;
+
   private readonly homeMethodsStore = inject(HomeStore);
   private readonly searchEngine = inject(SearchEngine);
   private readonly commonFacade = inject(CommonFacade);
 
-  public readonly filterBrandsData = this.homeMethodsStore.filteredBrands;
-  public readonly orderedBrands = this.homeMethodsStore.orderedBrands;
+  constructor() {
+    this.filterBrandsData = this.homeMethodsStore.filteredBrands;
+    this.orderedBrands = this.homeMethodsStore.orderedBrands;
+    this.searchTerm = this.homeMethodsStore.searchTerm;
+    this.filteredResultsCount = this.homeMethodsStore.filteredResultsCount;
+  }
 
   public initFilterBrands(): void {
     const brands = this.commonFacade.brands();
@@ -22,15 +32,11 @@ export class HomeFacade {
     this.homeMethodsStore.setFilteredBrands(sortedBrands);
   }
 
-  public filterBrands(searchTerm: string): void {
-    const filteredBrands = this.searchEngine.filterBrands(searchTerm, this.commonFacade.brands());
-    this.homeMethodsStore.setFilteredBrands(filteredBrands);
+  public searchBrands(searchTerm: string): void {
+    this.homeMethodsStore.setSearchTerm(searchTerm);
   }
   
   public changeSortOrder(order: SortOrder): void {
     this.homeMethodsStore.setOrderedBrands(order);
-    const filteredBrands = this.homeMethodsStore.filteredBrands();
-    const sortedBrands = this.searchEngine.sortBrands(filteredBrands, order);
-    this.homeMethodsStore.setFilteredBrands(sortedBrands);
   }
 }

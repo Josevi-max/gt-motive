@@ -9,15 +9,20 @@ import { VehicleBrand } from '../../models/commons.models';
   providedIn: 'root',
 })
 export class CommonFacade {
+
+  public readonly brands: Signal<VehicleBrand[]>;
+  public isLoading: Signal<boolean>;
+
   private readonly commonStore = inject(CommonStore);
   private readonly commonApi = inject(CommonApi);
 
-  public get brands(): Signal<VehicleBrand[]> {
-    return this.commonStore.brands;
+  constructor() {
+    this.brands = this.commonStore.brands;
+    this.isLoading = this.commonStore.loading;
   }
 
-  public get isLoading(): Signal<boolean> {
-    return this.commonStore.loading;
+  public set Loading(loading: boolean) {
+    this.commonStore.setLoading(loading);
   }
 
   public loadAllBrands(): Observable<VehicleBrand[]> {

@@ -1,3 +1,5 @@
+
+@defer (when !isLoadingBrandDetails()) {
 <div class="min-h-screen">
     <header class="py-8 px-4 sm:px-6 lg:px-8 title-header">
         <div class="max-w-7xl mx-auto">
@@ -13,3 +15,6 @@
         </div>
     </header>
 </div>
+}@placeholder  {
+    <app-spinner [showSpinner]="isLoadingBrandDetails()"></app-spinner>
+}

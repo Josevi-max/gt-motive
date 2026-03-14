@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, Signal } from '@angular/core';
 import { BrandDetailsStore } from '../store/brand-details.store';
 import { BrandDetailsApi } from '../../infrastructure/api/brand-details-api';
 import { combineLatest, map, tap } from 'rxjs';
@@ -8,17 +8,23 @@ import { CommonFacade } from '../../../../core/features/commons/state/facade/com
   providedIn: 'root',
 })
 export class BrandDetailsFacade {
+
+  public readonly isLoadingBrandDetails: Signal<boolean>;
   
   private readonly brandDetailsMethodsStore = inject(BrandDetailsStore);
   private readonly brandDetailsApiService = inject(BrandDetailsApi);
   private readonly commonFacade = inject(CommonFacade);
+
+  constructor() {
+    this.isLoadingBrandDetails = this.brandDetailsMethodsStore.loading;
+  }
+  
   public loadBrandDetails(brandId: number): void {
     const lastLoadedBrandId = this.brandDetailsMethodsStore.lastLoadedBrandId();
 
     if(lastLoadedBrandId === brandId) {
       return;
     }
-
     this.brandDetailsMethodsStore.setLoading(true);
     combineLatest([
       this.brandDetailsApiService.getBrandDetails(brandId),
@@ -38,19 +44,19 @@ export class BrandDetailsFacade {
         return { models, types };
       }),
       tap(({ models, types }) => {
-        this.setBrandNameById(brandId);
+        this.setBrandNameById(Number(brandId));
         this.brandDetailsMethodsStore.setModels(models);
         this.brandDetailsMethodsStore.setVehicleTypes(types);
+        this.brandDetailsMethodsStore.setLastLoadedBrandId(Number(brandId));
         this.brandDetailsMethodsStore.setLoading(false);
-        this.brandDetailsMethodsStore.setLastLoadedBrandId(brandId);
       })
     ).subscribe();
   }
 
   private setBrandNameById(brandId: number): void {
     const brands = this.commonFacade.brands();
-    const brand = brands.find(b => Number(b.id) === Number(brandId));
-    const brandName = brand ? brand.name : '';
+    const brandsMap = new Map(brands.map(brand => [Number(brand.id), brand.name]));
+    const brandName = brandsMap.get(brandId) || '';
     this.brandDetailsMethodsStore.setBrandName(brandName);
   }
 

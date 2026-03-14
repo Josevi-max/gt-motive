@@ -5,7 +5,7 @@ import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-details',
-  imports: [Spinner, MatIcon],
+  imports: [MatIcon, Spinner],
   templateUrl: './details.html',
   styleUrl: './details.scss',
 })
@@ -16,4 +16,5 @@ export class Details {
   protected readonly vehicleTypes = this.brandDetailsStore.vehicleTypes;
   protected readonly models = this.brandDetailsStore.models;
   protected readonly brandName = this.brandDetailsStore.brandName;
+  protected readonly isLoadingBrandDetails = this.brandDetailsStore.loading;
 }
