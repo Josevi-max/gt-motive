@@ -1,6 +1,5 @@
 import { patchState, withMethods } from "@ngrx/signals";
 import { SortOrder } from "../../domain/models/home.models";
-import { VehicleBrand } from "../../../../core/features/commons/models/commons.models";
 
 export const HomeMethodsStore =
     withMethods((

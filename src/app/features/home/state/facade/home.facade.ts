@@ -16,19 +16,12 @@ export class HomeFacade {
   public readonly filteredResultsCount: Signal<number>;
 
   private readonly homeMethodsStore = inject(HomeStore);
-  private readonly searchEngine = inject(SearchEngine);
-  private readonly commonFacade = inject(CommonFacade);
 
   constructor() {
     this.filterBrandsData = this.homeMethodsStore.filteredBrands;
     this.orderedBrands = this.homeMethodsStore.orderedBrands;
     this.searchTerm = this.homeMethodsStore.searchTerm;
     this.filteredResultsCount = this.homeMethodsStore.filteredResultsCount;
-  }
-
-  public initFilterBrands(): void {
-    const brands = this.commonFacade.brands();
-    const sortedBrands = this.searchEngine.sortBrands(brands);
   }
 
   public searchBrands(searchTerm: string): void {
