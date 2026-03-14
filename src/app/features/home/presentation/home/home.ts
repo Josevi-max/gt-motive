@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject, Signal } from '@angular/core';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { BrandCard } from '../brand-card/brand-card';
 import { SearchEngine } from "../search-engine/search-engine";
 import { HomeFacade } from '../../state/facade/home.facade';
-import { CommonFacade } from '../../../../core/features/commons/state/facade/common.facade';
 import { VehicleBrand } from '../../../../core/features/commons/models/commons.models';
+import { BrandCard } from '../../../../shared/brand-card/brand-card';
 @Component({
   selector: 'app-home',
   imports: [ScrollingModule, BrandCard, SearchEngine],

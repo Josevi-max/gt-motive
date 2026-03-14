@@ -9,9 +9,8 @@
              overflow-auto bg-white dark:bg-gray-800 shadow-sm relative">
 
     <div *cdkVirtualFor="let item of brands()" class="p-3 sm:p-2">
-      <app-brand-card [brandName]="item.name" [brandId]="item.id"></app-brand-card>
+      <app-brand-card [brandName]="item.name" [link]="['/brand', item.id, 'information']"></app-brand-card>
     </div>
-
     @if (filteredResultsCount() === 0) {
     <div class="flex justify-center items-center h-32 sm:h-48 text-gray-500">
       <p class="text-sm sm:text-base">No hay marcas disponibles</p>

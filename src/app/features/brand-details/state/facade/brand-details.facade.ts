@@ -3,6 +3,7 @@ import { BrandDetailsStore } from '../store/brand-details.store';
 import { BrandDetailsApi } from '../../infrastructure/api/brand-details-api';
 import { combineLatest, map, tap } from 'rxjs';
 import { CommonFacade } from '../../../../core/features/commons/state/facade/common.facade';
+import { VehicleModelData, VehicleTypeData } from '../../domain/models/brand-details.models';
 
 @Injectable({
   providedIn: 'root',
@@ -10,13 +11,23 @@ import { CommonFacade } from '../../../../core/features/commons/state/facade/com
 export class BrandDetailsFacade {
 
   public readonly isLoadingBrandDetails: Signal<boolean>;
-  
+  public readonly totalVehicleTypes: Signal<number>;
+  public readonly totalModels: Signal<number>;
+  public readonly models: Signal<VehicleModelData[]>
+  public readonly vehicleTypes: Signal<VehicleTypeData[]>
+  public readonly brandName: Signal<string>;
+
   private readonly brandDetailsMethodsStore = inject(BrandDetailsStore);
   private readonly brandDetailsApiService = inject(BrandDetailsApi);
   private readonly commonFacade = inject(CommonFacade);
 
   constructor() {
     this.isLoadingBrandDetails = this.brandDetailsMethodsStore.loading;
+    this.totalVehicleTypes = this.brandDetailsMethodsStore.totalVehicleTypes;
+    this.totalModels = this.brandDetailsMethodsStore.totalModels;
+    this.models = this.brandDetailsMethodsStore.models;
+    this.vehicleTypes = this.brandDetailsMethodsStore.vehicleTypes;
+    this.brandName = this.brandDetailsMethodsStore.brandName;
   }
   
   public loadBrandDetails(brandId: number): void {

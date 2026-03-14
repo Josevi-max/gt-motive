@@ -7,3 +7,11 @@
         background: $card-icon-background
     }
 }
+
+.vehicle-chip {
+    background: $card-icon-background!important;
+
+    mat-icon {
+        color: $color-primary;
+    }
+}
