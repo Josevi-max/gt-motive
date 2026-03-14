@@ -1,5 +1,5 @@
 import { inject, Injectable, Signal } from '@angular/core';
-import { GetAllMakesResponse, MakeResults } from '../../infrastructure/models/common.dto';
+import { GetAllMakesResponse } from '../../infrastructure/models/common.dto';
 import { CommonStore } from '../store/common.store';
 import { CommonApi } from '../../infrastructure/api/common.api';
 import { map, Observable, of, tap } from 'rxjs';
